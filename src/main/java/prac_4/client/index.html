@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WebSocket Test</title>
+</head>
+<body>
+<h1>WebSocket Test</h1>
+<button onclick="sendMessage()">Send Message</button>
+<script>
+    const socket = new WebSocket("ws://localhost:8080/ws");
+
+    socket.onopen = () => {
+        console.log("Connected to WebSocket server");
+        socket.send("Hello from client!");  // Отправка текстового сообщения на сервер
+    };
+
+    socket.onmessage = (event) => {
+        console.log("Message from server:", event.data);
+    };
+
+    socket.onerror = (error) => {
+        console.error("WebSocket error:", error);
+    };
+
+    socket.onclose = () => {
+        console.log("Disconnected from WebSocket server");
+    };
+
+    function sendMessage() {
+        socket.send("Another message from client!");  // Отправка текстового сообщения по нажатию кнопки
+    }
+</script>
+</body>
+</html>

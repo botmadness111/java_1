@@ -1,3 +1,5 @@
+package prac_1;
+
 public class Main {
     public static void main(String[] args) throws InterruptedException {
         PingPong pingPong = new PingPong();
