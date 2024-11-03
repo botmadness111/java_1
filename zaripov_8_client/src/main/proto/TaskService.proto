@@ -1,0 +1,31 @@
+syntax = "proto3";
+package com.example.grpc;
+
+
+message Task {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+}
+
+message TaskRequest1{
+  string id = 1;
+}
+
+message TaskResponse1{
+  Task task = 1;
+}
+
+message TaskRequest2{
+  Task task = 1;
+}
+
+message TaskResponse2{
+  string answer = 1;
+}
+
+service TaskService{
+  rpc getTask(TaskRequest1) returns (TaskResponse1);
+  rpc postTask(TaskRequest2) returns (TaskResponse2);
+  rpc deleteTask(TaskRequest1) returns (TaskResponse1);
+}
