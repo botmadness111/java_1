@@ -1,35 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>WebSocket Test</title>
-</head>
-<body>
-<h1>WebSocket Test</h1>
-<button onclick="sendMessage()">Send Message</button>
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.6.1/dist/sockjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+
 <script>
-    const socket = new WebSocket("ws://localhost:8080/ws");
-
-    socket.onopen = () => {
-        console.log("Connected to WebSocket server");
-        socket.send("Hello from client!");  // Отправка текстового сообщения на сервер
-    };
-
-    socket.onmessage = (event) => {
-        console.log("Message from server:", event.data);
-    };
-
-    socket.onerror = (error) => {
-        console.error("WebSocket error:", error);
-    };
-
-    socket.onclose = () => {
-        console.log("Disconnected from WebSocket server");
-    };
-
-    function sendMessage() {
-        socket.send("Another message from client!");  // Отправка текстового сообщения по нажатию кнопки
-    }
+    const socket = new SockJS('http://localhost:8080/ws');
+    const stompClient = Stomp.over(socket);
 </script>
-</body>
-</html>

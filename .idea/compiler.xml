@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="zaripov_8" />
+        <module name="prac_4" />
         <module name="java_6" />
         <module name="zaripov_8_client" />
         <module name="java_5" />

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>WebSocketEchoClient</title>
+
+    <!-- Import Map for ESM -->
+    <script type="importmap">
+        {
+            "imports": {
+                "@stomp/stompjs": "https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/esm6/index.js"
+            }
+        }
+    </script>
+
+
+    <!-- ES Module Shims for Compatibility -->
+    <script async src="https://cdn.jsdelivr.net/npm/es-module-shims@1.5.1/dist/es-module-shims.js"></script>
+</head>
+
+<body>
+<h1>WebSocket Chat Client</h1>
+<div>
+    <label for="from">Name: </label>
+    <input type="text" id="from" placeholder="Enter your name">
+</div>
+<div>
+    <label for="message">Message: </label>
+    <input type="text" id="message" placeholder="Enter your message">
+    <button onclick="sendMessage()">Send</button>
+</div>
+<div id="messages">
+    <h2>Messages:</h2>
+    <ul id="messageList"></ul>
+</div>
+
+<script type="module">
+    import { Client } from "@stomp/stompjs";
+
+    const client = new Client({
+        brokerURL: 'ws://localhost:8080/webs',
+        connectHeaders: {
+            login: 'guest',
+            passcode: 'guest',
+        },
+        debug: function (str) {
+            console.log(str);
+        },
+        reconnectDelay: 5000,
+        heartbeatIncoming: 4000,
+        heartbeatOutgoing: 4000,
+    });
+
+    client.onConnect = function (frame) {
+        console.log('Connected: ' + frame);
+        client.subscribe('/topic/messages', function (message) {
+            displayMessage(JSON.parse(message.body));
+        });
+    };
+
+    client.activate();
+
+    function sendMessage() {
+        const fromInput = document.getElementById('from').value;
+        const messageInput = document.getElementById('message').value;
+
+        if (!fromInput || !messageInput) {
+            alert('Please enter both your name and message!');
+            return;
+        }
+
+        const message = {
+            from: fromInput,
+            text: messageInput,
+        };
+
+        client.publish({
+            destination: '/app/webs',
+            body: JSON.stringify(message),
+        });
+
+        document.getElementById('message').value = '';
+    }
+
+    function displayMessage(message) {
+        const messageList = document.getElementById('messageList');
+        const newMessage = document.createElement('li');
+        newMessage.textContent = `${message.from}: ${message.text}`;
+        messageList.appendChild(newMessage);
+    }
+
+    // Attach sendMessage to the global scope
+    window.sendMessage = sendMessage;
+</script>
+</body>
+
+</html>

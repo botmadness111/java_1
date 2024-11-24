@@ -1,4 +1,4 @@
-package prac_4.server;
+package main.java.prac_4.server;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.*;
