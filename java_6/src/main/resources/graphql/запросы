@@ -1,0 +1,42 @@
+1)
+
+query($id: String) {
+  bookById(id: $id) {
+    id
+    name
+    pageCount
+    author {
+      id
+      firstName
+      lastName
+    }
+  }
+}
+ <><><><><><><><><><><>><><>
+{
+    "id": "book-2"
+}
+
+---------------------------
+
+mutation($id: String, $name: String, $pageCount: Int, $authorId: String) {
+  addBook(id: $id, name: $name, pageCount: $pageCount, authorId: $authorId) {
+    id
+    name
+    pageCount
+    author {
+      id
+      firstName
+      lastName
+    }
+  }
+}
+
+<>><><><><><><><><><><><><><>
+
+{
+  "id": "201",
+  "name": "Новая книга",
+  "pageCount": 200,
+  "authorId": "10"
+}
